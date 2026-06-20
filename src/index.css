@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body, #root {
+  height: 100%;
+  overscroll-behavior: none;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer components {
+  .input-field {
+    @apply w-full bg-white border border-gray-200 rounded-xl py-3 px-4 text-sm text-gray-800 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/30 transition-all;
+  }
+}
+
+@layer utilities {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.9); opacity: 1; }
+  100% { transform: scale(1.3); opacity: 0; }
+}
+
+@keyframes check-bounce {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+.animate-check-bounce {
+  animation: check-bounce 0.5s ease-out forwards;
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+@keyframes scan-sweep {
+  0%   { top: 8%; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { top: 88%; opacity: 0; }
+}
+
+.scan-line {
+  animation: scan-sweep 2.2s ease-in-out infinite;
+}
+
+@keyframes sweep {
+  0%   { top: 4px;   opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { top: calc(100% - 4px); opacity: 0; }
+}
+
+.sweep-line {
+  animation: sweep 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ── html5-qrcode overrides ─────────────────────────────────────────────────── */
+/* Strip all default library chrome so we can layer our own UI on top */
+
+.scanner-container > div {
+  border: none !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+/* Make the video fill the container completely */
+.scanner-container video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  position: absolute !important;
+  inset: 0 !important;
+}
+
+/* Hide ALL default library UI: buttons, dashboard, status text */
+.scanner-container #qr-reader__dashboard,
+.scanner-container #qr-reader__status_span,
+.scanner-container #qr-reader__header_message,
+.scanner-container button,
+.scanner-container select,
+.scanner-container #qr-reader__camera_selection,
+.scanner-container #html5-qrcode-button-camera-stop,
+.scanner-container #html5-qrcode-button-camera-start,
+.scanner-container #html5-qrcode-button-file-selection {
+  display: none !important;
+}
+
+/* Remove the white border html5-qrcode draws around the scan region */
+.scanner-container #qr-shaded-region {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* The lib inlines a border on the scan region — nuke it */
+.scanner-container #qr-reader__scan_region img {
+  display: none !important;
+}
+
+/* Prevent overflow flash on load */
+.scanner-container {
+  overflow: hidden;
+}
+
+/* ── Safe-area utilities ─────────────────────────────────────────────────────── */
+.h-safe-bottom {
+  height: env(safe-area-inset-bottom, 12px);
+}
+
+.pb-safe-or-6 {
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 24px);
+}
